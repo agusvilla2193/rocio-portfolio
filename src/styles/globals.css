@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+/* 1. Escaneo de archivos: Subimos un nivel más para asegurar que tome todo src */
+@source "../**/*.{ts,tsx}";
+
+/* 2. Definición del Tema */
+@theme {
+  --color-brand-bg: #09090b;
+  --color-brand-surface: #18181b;
+  --color-brand-accent: #ffffff;
+  --color-brand-muted: #71717a;
+}
+
+/* 3. Estilos Globales limpios */
+:root {
+  background-color: var(--color-brand-bg);
+  color: white;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utility class modularizada */
+.section-container {
+  width: 100%;
+  max-width: 80rem; /* 1280px */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
