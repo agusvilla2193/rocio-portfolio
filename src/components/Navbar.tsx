@@ -12,29 +12,58 @@ import { ENV } from "@/config/env";
 
 /**
  * Interfaz para los enlaces de redes sociales.
- * Garantiza que no se utilicen tipos 'any'.
+ * Usamos React.ReactElement para asegurar que el ícono sea un componente válido.
  */
 interface SocialLink {
     href: string;
-    icon: React.JSX.Element; // Usamos React.JSX.Element para mayor precisión en v19
+    icon: React.ReactElement;
     label: string;
+    hoverClass: string;
 }
 
 const Navbar: React.FC = () => {
-    // Generamos la lista de links filtrando aquellos que no tengan URL configurada
-    const socialLinks: SocialLink[] = [
-        { href: ENV.social.instagram, icon: <Instagram size={18} />, label: "Instagram" },
-        { href: ENV.social.tiktok, icon: <Video size={18} />, label: "TikTok" },
-        { href: ENV.social.youtube, icon: <Youtube size={18} />, label: "YouTube" },
-        { href: ENV.social.linkedin, icon: <Linkedin size={18} />, label: "LinkedIn" },
-        { href: `mailto:${ENV.contact.email}`, icon: <Mail size={18} />, label: "Email" },
-    ].filter((link): link is SocialLink => link.href !== "");
+    // Definimos los links básicos
+    const rawLinks = [
+        {
+            href: ENV.social.instagram,
+            icon: <Instagram size={18} />,
+            label: "Instagram",
+            hoverClass: "hover:text-[#E1306C]"
+        },
+        {
+            href: ENV.social.tiktok,
+            icon: <Video size={18} />,
+            label: "TikTok",
+            hoverClass: "hover:text-[#00F2EA]"
+        },
+        {
+            href: ENV.social.youtube,
+            icon: <Youtube size={18} />,
+            label: "YouTube",
+            hoverClass: "hover:text-[#FF0000]"
+        },
+        {
+            href: ENV.social.linkedin,
+            icon: <Linkedin size={18} />,
+            label: "LinkedIn",
+            hoverClass: "hover:text-[#0A66C2]"
+        },
+        {
+            href: `mailto:${ENV.contact.email}`,
+            icon: <Mail size={18} />,
+            label: "Email",
+            hoverClass: "hover:text-white"
+        },
+    ];
+
+    // Filtramos los links que tienen href vacío de forma segura
+    const socialLinks: SocialLink[] = rawLinks.filter(link => link.href !== "" && link.href !== undefined);
 
     return (
         <nav className="fixed top-0 left-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50">
-            <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center w-full">
+            <div className="section-container h-20 flex justify-between items-center w-full">
                 {/* Lado Izquierdo: Branding */}
-                <div className="flex flex-col items-start">
+                <div className="flex flex-col items-start select-none">
                     <span className="text-lg font-black tracking-tighter text-white uppercase leading-none">
                         Rocio Diaz Yamaguchi
                     </span>
@@ -51,7 +80,7 @@ const Navbar: React.FC = () => {
                             href={link.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-zinc-400 hover:text-white transition-all duration-300 hover:scale-110 active:scale-95"
+                            className={`text-zinc-400 transition-all duration-300 hover:scale-125 active:scale-90 ${link.hoverClass}`}
                             aria-label={link.label}
                         >
                             {link.icon}
